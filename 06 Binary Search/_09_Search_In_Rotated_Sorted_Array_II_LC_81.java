@@ -1,0 +1,39 @@
+package _06_BinarySearch;
+
+public class _09_Search_In_Rotated_Sorted_Array_II_LC_81 {
+    public boolean search(int[] nums, int target) {
+        int low = 0,high = nums.length-1;
+
+        while(low<=high){
+            int mid = low + (high-low)/2;
+            if(nums[mid] == target)
+                return true;
+
+            if(nums[low] == nums[mid] && nums[mid] == nums[high]){
+                low++;
+                high--;
+                continue;
+            }
+
+            // Check if the left half is sorted
+            if (nums[low] <= nums[mid]) {
+                // Target lies within the sorted left half
+                if (target >= nums[low] && target < nums[mid])// if target lies in left sorted part shrink the array towards left
+                    high = mid - 1;
+                else //else shrink towards right
+                    low = mid + 1;
+            }
+
+            // Otherwise, the right half must be sorted
+            else{
+                // Target lies within the sorted right half
+                if (target > nums[mid] && target <= nums[high])
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+        }
+        return false;
+    }
+
+}
